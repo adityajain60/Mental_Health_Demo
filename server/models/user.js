@@ -16,11 +16,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    username: {
-      type: String,
-      required: true,
-      unique: true,
-    },
     gender: {
       type: String,
       enum: ["Male", "Female", "Non Binary"],
@@ -45,4 +40,4 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("User", userSchema);
+module.exports = mongoose.model("User", userSchema);

@@ -1,6 +1,18 @@
 const express=require("express");
 const app=express();
-const {DBconnection}=require("./database/db.js");
+const { DBconnection } = require("./database/db.js");
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
+const postRouter = require("./routers/postRoutes.js");
+const userRouter = require("./routers/userRoutes.js");
+
+app.use("/posts", postRouter);
+app.use("/user", userRouter);
+
+
 // const bcrypt = require("bcryptjs");
 // const jwt = require('jsonwebtoken');
 // const cookieParser = require("cookie-parser");
@@ -12,8 +24,7 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
 // app.use(cookieParser());
 DBconnection();
 app.get("/home", (req, res) => {
@@ -23,4 +34,6 @@ app.get("/home", (req, res) => {
 app.listen(8000, () => {
   console.log("Server is running on port 8000");
 });
+
+
 
