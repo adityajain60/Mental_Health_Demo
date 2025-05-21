@@ -23,4 +23,4 @@ const anonymousSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("Anonymous", anonymousSchema);
+module.exports = mongoose.model("Anonymous", anonymousSchema);
