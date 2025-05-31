@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
 import Signup from "./components/SignUp";
 import TherapyChat from "./components/TherapyChat";
+
 function App() {
   return (
     <BrowserRouter>
@@ -14,4 +15,5 @@ function App() {
     </BrowserRouter>
   );
 }
+
 export default App;
