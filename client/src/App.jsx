@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-
 import Signup from "./components/SignUp";
 import TherapyChat from "./components/TherapyChat";
 
-
 function App() {
   return (
     <BrowserRouter>
