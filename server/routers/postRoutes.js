@@ -1,5 +1,4 @@
-const express =  require("express");
-
+const express = require("express");
 const postRouter = express.Router();
 
 const {
@@ -9,13 +8,15 @@ const {
   updatePost,
   destroyPost,
 } = require("../controllers/postController.js");
+const authMiddleware = require("../middleware/authMiddleware");
 
+// Public routes
 postRouter.get("/getAllPosts", index);
 postRouter.get("/getPost/:id", showPost);
-postRouter.post("/createPost", createPost);
-postRouter.put("/editPosts/:id", updatePost);
-postRouter.delete("/deletePosts/:id", destroyPost);
+
+// Protected routes
+postRouter.post("/createPost", authMiddleware, createPost);
+postRouter.put("/editPosts/:id", authMiddleware, updatePost);
+postRouter.delete("/deletePosts/:id", authMiddleware, destroyPost);
 
 module.exports = postRouter;
-
-

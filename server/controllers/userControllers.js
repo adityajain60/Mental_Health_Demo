@@ -1,7 +1,7 @@
-const User = require( "../models/user.js");
+const User = require("../models/user.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
+const Post = require("../models/anonymousPost.js");
 
 const signup = async (req, res) => {
   try {
@@ -13,15 +13,19 @@ const signup = async (req, res) => {
       return res.status(400).json({ error: "Email already exists" });
     }
 
-    //HASH PASSWORD HERE
-
+    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    //https://avatar.iran.liara.run/public/boy
-
     const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${email}`;
     const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${email}`;
+
+    const profilePicture =
+      gender.toLowerCase() === "male"
+        ? boyProfilePic
+        : gender.toLowerCase() === "female"
+        ? girlProfilePic
+        : "";
 
     const newUser = new User({
       name,
@@ -30,31 +34,26 @@ const signup = async (req, res) => {
       gender,
       age,
       bio,
-      profilePicture: gender === "male" ? boyProfilePic : girlProfilePic,
+      profilePicture,
     });
-    const generateTokenAndSetCookie = (userId, res) => {
-      const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
-        expiresIn: "15d",
-      });
-      res.cookie("jwt", token, { httpOnly: true });
-    };
 
-    if (newUser) {
-      //Generate JWT token
-      generateTokenAndSetCookie(newUser._id, res);
-      await newUser.save();
+    await newUser.save();
 
-      res.status(201).json({
-        _id: newUser._id,
-        name: newUser.name,
-        email: newUser.email,
-        age: newUser.age,
-        bio: newUser.bio,
-        profilePicture: newUser.profilePicture,
-      });
-    } else {
-      res.status(400).json({ error: "Invalid user data" });
-    }
+    // Generate JWT token
+    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "15d",
+    });
+    res.cookie("jwt", token, { httpOnly: true });
+
+    res.status(201).json({
+      _id: newUser._id,
+      name: newUser.name,
+      email: newUser.email,
+      age: newUser.age,
+      bio: newUser.bio,
+      profilePicture: newUser.profilePicture,
+      token, // <-- send token in response for frontend
+    });
   } catch (error) {
     console.log("Error in signup controller", error.message);
     res.status(500).json({ error: "Internal server error" });
@@ -73,14 +72,12 @@ const login = async (req, res) => {
     if (!user || !isPasswordCorrect) {
       return res.status(400).json({ error: "Invalid email or password" });
     }
-    const generateTokenAndSetCookie = (userId, res) => {
-      const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
-        expiresIn: "15d",
-      });
-      res.cookie("jwt", token, { httpOnly: true });
-    };
 
-    generateTokenAndSetCookie(user._id, res);
+    // Generate JWT token
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "15d",
+    });
+    res.cookie("jwt", token, { httpOnly: true });
 
     res.status(200).json({
       _id: user._id,
@@ -89,6 +86,7 @@ const login = async (req, res) => {
       age: user.age,
       bio: user.bio,
       profilePicture: user.profilePicture,
+      token, // <-- send token in response for frontend
     });
   } catch (error) {
     console.log("Error in login controller", error.message);
@@ -106,4 +104,28 @@ const logout = (req, res) => {
   }
 };
 
-module.exports = { signup, login, logout };
+const getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id).select("-password");
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch user" });
+  }
+};
+
+const getUserPosts = async (req, res) => {
+  try {
+    const { id } = req.params;
+    // Find posts where createdBy matches the user id
+    const posts = await Post.find({ createdBy: id }).sort({ createdAt: -1 });
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch user's posts" });
+  }
+};
+
+module.exports = { signup, login, logout, getUserById, getUserPosts };

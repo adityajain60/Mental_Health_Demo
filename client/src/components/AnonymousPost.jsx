@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // <-- Add this import
+
+const API_BASE_URL = "http://localhost:8000/posts";
 
 const optionsColors = {
   happy: "bg-yellow-100 text-yellow-800",
@@ -19,9 +22,13 @@ const AnonymousPosts = () => {
     tags: "",
   });
 
+  const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate(); // <-- Add this
+
   const fetchPosts = async () => {
     try {
-      const res = await axios.get("/api/anonymous");
+      const res = await axios.get(`${API_BASE_URL}/getAllPosts`);
       setPosts(res.data.reverse());
     } catch (err) {
       console.error("Error fetching posts", err);
@@ -39,10 +46,15 @@ const AnonymousPosts = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/api/anonymous/${id}`);
+      await axios.delete(`${API_BASE_URL}/deletePosts/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setPosts(posts.filter((p) => p._id !== id));
     } catch (err) {
       console.error("Failed to delete post", err);
+      alert(err.response?.data?.error || "Failed to delete post");
     }
   };
 
@@ -60,14 +72,31 @@ const AnonymousPosts = () => {
     try {
       const updated = {
         ...editFormData,
-        tags: editFormData.tags.split(",").map((tag) => tag.trim()),
+        tags: editFormData.tags
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter(Boolean),
       };
-      const res = await axios.put(`/api/anonymous/${editingId}`, updated);
+      const res = await axios.put(
+        `${API_BASE_URL}/editPosts/${editingId}`,
+        updated,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setPosts(posts.map((p) => (p._id === editingId ? res.data : p)));
       setEditingId(null);
     } catch (err) {
       console.error("Update failed", err);
+      alert(err.response?.data?.error || "Failed to update post");
     }
+  };
+
+  // Add this function to handle redirect
+  const handleView = (id) => {
+    navigate(`/anonymouspost/${id}`);
   };
 
   return (
@@ -133,32 +162,57 @@ const AnonymousPosts = () => {
               </>
             ) : (
               <>
-                <h2 className="text-xl font-semibold mb-1">{post.title}</h2>
-                <p className="text-gray-800 whitespace-pre-wrap mb-3">{post.article}</p>
+                <h2
+                  className="text-xl font-semibold mb-1 cursor-pointer hover:underline"
+                  onClick={() => handleView(post._id)}
+                  title="View full post"
+                >
+                  {post.title}
+                </h2>
+                <p className="text-gray-800 whitespace-pre-wrap mb-3">
+                  {post.article}
+                </p>
                 <span
-                  className={`text-xs px-2 py-1 rounded-full ${optionsColors[post.options]}`}
+                  className={`text-xs px-2 py-1 rounded-full ${
+                    optionsColors[post.options]
+                  }`}
                 >
                   {post.options}
                 </span>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {post.tags.map((tag, i) => (
-                    <span key={i} className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
+                    <span
+                      key={i}
+                      className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded"
+                    >
                       #{tag}
                     </span>
                   ))}
                 </div>
-                <div className="mt-4 flex justify-end gap-3 text-sm">
+                {/* Only show Edit/Delete if current user is the creator */}
+                {post.createdBy === userId && (
+                  <div className="mt-4 flex justify-end gap-3 text-sm">
+                    <button
+                      onClick={() => handleEdit(post)}
+                      className="text-blue-600 hover:underline"
+                    >
+                      ✏️ Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(post._id)}
+                      className="text-red-600 hover:underline"
+                    >
+                      🗑️ Delete
+                    </button>
+                  </div>
+                )}
+                {/* Add a View button for all users */}
+                <div className="mt-2 flex justify-end">
                   <button
-                    onClick={() => handleEdit(post)}
-                    className="text-blue-600 hover:underline"
+                    onClick={() => handleView(post._id)}
+                    className="text-green-700 hover:underline text-sm"
                   >
-                    ✏️ Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(post._id)}
-                    className="text-red-600 hover:underline"
-                  >
-                    🗑️ Delete
+                    👁️ View
                   </button>
                 </div>
               </>
