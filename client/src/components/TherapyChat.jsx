@@ -4,8 +4,9 @@ import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import { MessageCircleIcon, ArrowUpRightIcon, BrainIcon } from "lucide-react";
 
+
 // Gemini API Key will be handled by the environment as per instructions.
-const GEMINI_API_KEY = "AIzaSyDt1aSqi0e6G0J75m-x2bAcznsdhaPkrPU";
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
 const questions = [
   { question: "How often do you feel overwhelmed with daily tasks?" },
