@@ -54,19 +54,6 @@ const questions = [
   },
 ];
 
-const accentColors = [
-  "from-green-400 to-blue-500",
-  "from-teal-400 to-green-500",
-  "from-blue-400 to-indigo-500",
-  "from-purple-400 to-pink-500",
-  "from-pink-400 to-red-500",
-  "from-yellow-400 to-green-500",
-  "from-orange-400 to-pink-500",
-  "from-cyan-400 to-blue-500",
-  "from-emerald-400 to-teal-500",
-  "from-fuchsia-400 to-purple-500",
-];
-
 const MentalHealthQuiz = () => {
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -93,87 +80,105 @@ const MentalHealthQuiz = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 via-blue-100 to-purple-100 py-10">
-      <div className="w-full max-w-2xl mx-auto rounded-3xl shadow-2xl bg-white/80 backdrop-blur-lg border border-green-100 p-0 sm:p-10">
-        <div className="flex flex-col items-center mb-8">
-          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center shadow-lg mb-4">
-            <span className="text-4xl">🧠</span>
-          </div>
-          <h1 className="text-4xl font-extrabold text-green-700 mb-2 text-center tracking-tight">
-            Mental Health Self Check-In
-          </h1>
-          <p className="text-green-900 text-lg text-center font-medium">
-            Take a moment to reflect on your well-being.
-          </p>
-        </div>
+    <div className="min-h-screen w-full bg-gray-50 relative overflow-hidden flex items-center justify-center py-10">
+      {/* Decorative Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-100 rounded-full blur-3xl opacity-40"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-100 rounded-full blur-3xl opacity-40"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-blue-50 to-purple-50 rounded-full opacity-30"></div>
+      </div>
 
+      <div className="relative z-10 w-full max-w-4xl mx-auto">
         {submitted ? (
-          <div className="flex flex-col items-center text-center py-10">
-            <h2 className="text-2xl font-bold text-green-700 mb-4">
-              🎉 Thanks for completing the quiz!
-            </h2>
-            <p className="text-green-800 mb-6 max-w-md">
-              This isn't a diagnostic tool, but a way to help reflect on your
-              mental health. If you're struggling, consider talking to a
-              professional. Everyone recognizes mental health differently, and
-              it's okay to seek help.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 mt-4">
-              <button
-                className="px-6 py-2 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-lg shadow hover:from-green-600 hover:to-blue-600 transition font-semibold"
-                onClick={resetQuiz}
-              >
-                Retake Quiz
-              </button>
-              <button
-                className="px-6 py-2 bg-gradient-to-r from-blue-600 to-green-500 text-white rounded-lg shadow hover:from-blue-700 hover:to-green-600 transition font-semibold"
-                onClick={handleGoToChat}
-              >
-                Discuss with AI Therapist
-              </button>
+          <div className="text-center">
+            <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 md:p-12 max-w-3xl mx-auto">
+              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-8">
+                <span className="text-white text-3xl">✨</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
+                Thank you for taking the time
+              </h2>
+              <p className="text-lg text-gray-600 mb-8 leading-relaxed max-w-2xl mx-auto">
+                Self-reflection is the first step toward understanding your
+                mental health. Remember, this isn't a diagnostic tool, but a way
+                to help you reflect. If you're struggling, consider reaching out
+                to a mental health professional.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button
+                  className="px-8 py-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-2xl transition-all duration-200 font-semibold hover:scale-105"
+                  onClick={resetQuiz}
+                >
+                  Retake Quiz
+                </button>
+                <button
+                  className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-2xl transition-all duration-200 font-semibold hover:scale-105 shadow-lg"
+                  onClick={handleGoToChat}
+                >
+                  Therapy Chat
+                </button>
+              </div>
             </div>
           </div>
         ) : (
-          <div className="flex flex-col gap-8">
-            <div className="flex flex-col items-center">
-              <div
-                className={`w-full rounded-2xl p-6 mb-4 bg-gradient-to-br ${
-                  accentColors[current % accentColors.length]
-                } shadow-lg`}
-              >
-                <div className="mb-2 text-lg text-white font-semibold tracking-wide text-center">
-                  Question {current + 1} of {questions.length}
-                </div>
-                <div className="text-2xl font-bold text-white text-center mb-2 drop-shadow">
-                  {questions[current].question}
-                </div>
+          <div className="space-y-8">
+            {/* Title */}
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-600 px-4 py-2 rounded-full text-sm font-medium mb-6">
+                <span>💙</span>
+                Mental Health Care
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-4">
+                Mental Health Self Check-In
+              </h1>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                Take a moment to reflect on your well-being and inner state
+              </p>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-gray-700 font-medium">Progress</span>
+                <span className="text-gray-700 font-medium">
+                  {current + 1} of {questions.length}
+                </span>
+              </div>
+              <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
+                <div
+                  className="h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-500 ease-out"
+                  style={{
+                    width: `${((current + 1) / questions.length) * 100}%`,
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Question Card */}
+            <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl border border-gray-100 p-8 md:p-12">
+              <div className="text-center mb-12">
+                <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 leading-tight">
+                  {questions[current].question}
+                </h3>
+              </div>
+
+              {/* Answer Options */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
                 {questions[current].options.map((option, idx) => (
                   <button
                     key={idx}
                     onClick={() => handleAnswer(option)}
-                    className="w-full px-4 py-3 bg-white/90 text-green-900 border-2 border-green-200 rounded-xl shadow hover:bg-green-50 hover:border-blue-400 hover:scale-105 transition-all duration-150 font-semibold text-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="group relative px-6 py-6 bg-gray-50 hover:bg-blue-50 text-gray-800 border-2 border-gray-100 hover:border-blue-200 rounded-2xl transition-all duration-200 font-semibold text-lg hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-100"
                   >
-                    {option}
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                    <span className="relative z-10">{option}</span>
                   </button>
                 ))}
               </div>
             </div>
-            <div className="mt-8 w-full bg-green-200 h-3 rounded-full shadow-inner">
-              <div
-                className="h-3 bg-gradient-to-r from-green-500 to-blue-500 rounded-full transition-all"
-                style={{
-                  width: `${((current + 1) / questions.length) * 100}%`,
-                }}
-              />
-            </div>
           </div>
         )}
       </div>
-      {/* Subtle floating shapes for extra modern feel */}
-      <div className="fixed top-10 left-10 w-32 h-32 bg-gradient-to-br from-green-300 to-blue-200 opacity-30 rounded-full blur-2xl pointer-events-none animate-pulse" />
-      <div className="fixed bottom-10 right-10 w-40 h-40 bg-gradient-to-br from-purple-300 to-blue-200 opacity-30 rounded-full blur-2xl pointer-events-none animate-pulse" />
     </div>
   );
 };

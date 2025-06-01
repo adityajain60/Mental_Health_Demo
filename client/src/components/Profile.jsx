@@ -187,11 +187,6 @@ const Profile = () => {
   }
 
   const wellnessStats = [
-    {
-      label: "Days Active",
-      value: calculateAccountAge(userData.createdAt),
-      icon: TrendingUp,
-    },
     { label: "Posts Shared", value: userPosts.length.toString(), icon: Heart },
     {
       label: "Member Since",
@@ -236,15 +231,7 @@ const Profile = () => {
                     </div>
                   )}
                 </div>
-                <label className="absolute bottom-2 right-2 w-8 h-8 bg-teal-600 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-teal-700 transition-colors cursor-pointer">
-                  <Camera size={16} />
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleProfilePictureUpload}
-                    className="hidden"
-                  />
-                </label>
+                
               </div>
             </div>
             <button
@@ -285,7 +272,6 @@ const Profile = () => {
                     })}
                   </div>
                   <div className="flex items-center gap-1">
-                    <ExternalLink size={16} />
                     <span className="text-teal-600">{userData.email}</span>
                   </div>
                 </div>
@@ -310,15 +296,7 @@ const Profile = () => {
                 </div>
               </div>
 
-              <div className="flex gap-3">
-                <button className="px-6 py-2 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition-colors font-medium flex items-center gap-2">
-                  <Heart size={16} />
-                  Support
-                </button>
-                <button className="px-6 py-2 border border-teal-300 text-teal-700 rounded-xl hover:bg-teal-50 transition-colors font-medium">
-                  Message
-                </button>
-              </div>
+           
             </div>
           </div>
         </div>
@@ -420,44 +398,6 @@ const Profile = () => {
                       </div>
                     )}
 
-                    <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                      <div className="flex items-center gap-6">
-                        <button
-                          onClick={() => toggleLike(post._id)}
-                          className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                            likedPosts.has(post._id)
-                              ? "text-red-600 bg-red-50"
-                              : "text-gray-600 hover:bg-gray-50"
-                          }`}
-                        >
-                          <Heart
-                            size={18}
-                            className={likedPosts.has(post._id) ? "fill-current" : ""}
-                          />
-                          <span className="text-sm font-medium">
-                            {post.likes || 0}
-                          </span>
-                        </button>
-
-                        <button className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors">
-                          <MessageCircle size={18} />
-                          <span className="text-sm font-medium">
-                            {post.comments || 0}
-                          </span>
-                        </button>
-
-                        <button className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors">
-                          <Share2 size={18} />
-                          <span className="text-sm font-medium">
-                            {post.shares || 0}
-                          </span>
-                        </button>
-                      </div>
-
-                      <button className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
-                        <Bookmark size={18} className="text-gray-400" />
-                      </button>
-                    </div>
                   </div>
                 </div>
               ))

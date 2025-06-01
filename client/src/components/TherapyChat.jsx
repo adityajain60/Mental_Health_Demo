@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
+import { SparklesIcon } from "@heroicons/react/24/outline";
+import { MessageCircleIcon, ArrowUpRightIcon, BrainIcon } from "lucide-react";
 
 // Gemini API Key will be handled by the environment as per instructions.
 const GEMINI_API_KEY = "AIzaSyDt1aSqi0e6G0J75m-x2bAcznsdhaPkrPU";
 
-// Copy of quiz questions for formatting
 const questions = [
   { question: "How often do you feel overwhelmed with daily tasks?" },
   { question: "How well do you sleep at night?" },
@@ -38,7 +39,6 @@ const TherapyChat = () => {
     scrollToBottom();
   }, [messages]);
 
-  // Helper to format quiz answers for AI
   const formatQuizForAI = () => {
     if (!quizAnswers) return "";
     return Object.entries(quizAnswers)
@@ -49,7 +49,6 @@ const TherapyChat = () => {
       .join("\n\n");
   };
 
-  // Initial greeting and quiz analysis (with duplicate prevention)
   useEffect(() => {
     setMessages((prev) => {
       if (prev.length === 0) {
@@ -102,6 +101,7 @@ const TherapyChat = () => {
                 id: "quiz-analysis",
                 text: aiResponseText,
                 sender: "ai",
+                isAnalysis: true,
               },
             ];
           });
@@ -115,6 +115,7 @@ const TherapyChat = () => {
                 id: "quiz-analysis",
                 text: "Thank you for sharing your answers. Remember, this is a safe space and I'm here to support you.",
                 sender: "ai",
+                isAnalysis: true,
               },
             ];
           });
@@ -233,106 +234,242 @@ const TherapyChat = () => {
     fetchGeminiResponse(messageTextForApi, updatedMessages);
   };
 
+  // Typing/analysis indicators
+  const TypingIndicator = () => (
+    <div className="flex justify-start mb-4">
+      <div className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-100 rounded-3xl rounded-bl-md px-6 py-4 shadow-sm">
+        <div className="flex items-center space-x-2">
+          <div className="flex space-x-1">
+            <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"></div>
+            <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce delay-100"></div>
+            <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce delay-200"></div>
+          </div>
+          <span className="text-purple-600 text-sm font-medium">
+            AI is thinking...
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+
+  const LoadingIndicator = () => (
+    <div className="flex justify-start mb-4">
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-3xl rounded-bl-md px-6 py-4 shadow-sm">
+        <div className="flex items-center space-x-3">
+          <SparklesIcon className="w-5 h-5 text-blue-500 animate-spin" />
+          <span className="text-blue-600 text-sm font-medium">
+            Analyzing your responses...
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 p-4 font-sans relative overflow-hidden">
-      {/* Floating gradient shapes for modern look */}
-      <div className="absolute top-0 left-0 w-60 h-60 bg-gradient-to-br from-sky-400 to-blue-600 opacity-30 rounded-full blur-3xl pointer-events-none animate-pulse" />
-      <div className="absolute bottom-0 right-0 w-72 h-72 bg-gradient-to-br from-purple-400 to-blue-300 opacity-30 rounded-full blur-3xl pointer-events-none animate-pulse" />
-      <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-gradient-to-br from-sky-300 to-blue-200 opacity-10 rounded-full blur-3xl pointer-events-none -translate-x-1/2 -translate-y-1/2" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-purple-200 to-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-blue-200 to-indigo-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
+        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse transform -translate-x-1/2 -translate-y-1/2"></div>
+      </div>
 
-      <div className="bg-white/90 backdrop-blur-2xl shadow-2xl rounded-3xl w-full max-w-2xl flex flex-col h-[calc(100vh-80px)] max-h-[700px] border border-blue-100 relative z-10">
-        <header className="bg-gradient-to-r from-sky-600 to-blue-700 p-6 rounded-t-3xl shadow flex items-center justify-center">
-          <span className="text-3xl mr-3">💬</span>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight">
-            AI Therapist
-          </h1>
-        </header>
+      {/* Floating particles */}
+      {[...Array(15)].map((_, i) => (
+        <div
+          key={i}
+          className="absolute w-1 h-1 bg-purple-300 rounded-full opacity-20"
+          style={{
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+            animation: `float ${3 + Math.random() * 2}s ease-in-out infinite`,
+            animationDelay: `${Math.random() * 2}s`,
+          }}
+        />
+      ))}
 
-        <div className="flex-grow p-6 space-y-4 overflow-y-auto custom-scrollbar">
-          {messages.map((msg) => (
-            <div
-              key={msg.id}
-              className={`flex ${
-                msg.sender === "user" ? "justify-end" : "justify-start"
-              }`}
-            >
-              <div
-                className={`max-w-xs md:max-w-md lg:max-w-lg px-5 py-3 rounded-2xl shadow-lg ${
-                  msg.sender === "user"
-                    ? "bg-gradient-to-br from-sky-500 to-blue-600 text-white rounded-br-none"
-                    : "bg-gradient-to-br from-blue-100 to-sky-100 text-blue-900 rounded-bl-none border border-blue-200"
-                }`}
-              >
-                <p className="text-base whitespace-pre-wrap">{msg.text}</p>
+      <div className="relative z-10 w-full max-w-3xl mx-auto">
+        <div
+          className="backdrop-blur-xl bg-white/70 border border-white/40 rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+          style={{ height: "90vh", maxHeight: 700 }}
+        >
+          {/* Header */}
+          <div className="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 p-6 relative overflow-hidden flex-shrink-0">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-600/80 via-blue-600/80 to-indigo-600/80"></div>
+            <div className="relative z-10 flex items-center justify-center">
+              <div className="flex items-center space-x-4">
+                <div className="relative">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                    <BrainIcon className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="absolute inset-0 w-12 h-12 bg-white/10 rounded-full animate-ping"></div>
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-white">
+                    AI Wellness Companion
+                  </h1>
+                  <p className="text-white/80 text-sm">
+                    Your safe space for mental health support
+                  </p>
+                </div>
               </div>
             </div>
-          ))}
-          <div ref={messagesEndRef} />
-          {(isLoading || analysisLoading) && (
-            <div className="flex justify-start">
-              <div className="px-5 py-3 rounded-2xl shadow bg-blue-100 text-blue-900 rounded-bl-none border border-blue-200">
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse delay-75"></div>
-                  <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse delay-150"></div>
-                  <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse delay-300"></div>
+            {/* Decorative elements */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-16 translate-x-16"></div>
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12"></div>
+          </div>
+
+          {/* Chat Messages */}
+          <div
+            className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 bg-gradient-to-b from-white/50 to-white/30"
+            style={{ minHeight: 0 }}
+          >
+            {messages.map((message, index) => (
+              <div
+                key={message.id}
+                className={`flex animate-fadeIn ${
+                  message.sender === "user" ? "justify-end" : "justify-start"
+                }`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div
+                  className={`max-w-xs md:max-w-md lg:max-w-2xl px-6 py-4 rounded-3xl shadow-lg transition-all duration-300 hover:shadow-xl ${
+                    message.sender === "user"
+                      ? "bg-gradient-to-br from-purple-500 to-blue-600 text-white rounded-br-md transform hover:scale-105"
+                      : message.isAnalysis
+                      ? "bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 text-emerald-900 rounded-bl-md"
+                      : "bg-gradient-to-br from-purple-50 to-blue-50 border border-purple-100 text-gray-800 rounded-bl-md"
+                  }`}
+                >
+                  {message.isAnalysis && (
+                    <div className="flex items-center space-x-2 mb-2">
+                      <SparklesIcon className="w-4 h-4 text-emerald-500" />
+                      <span className="text-xs font-semibold text-emerald-600 uppercase tracking-wide">
+                        Quiz Analysis
+                      </span>
+                    </div>
+                  )}
+                  <p className="text-sm md:text-base leading-relaxed whitespace-pre-wrap">
+                    {message.text}
+                  </p>
                 </div>
+              </div>
+            ))}
+            {analysisLoading && <LoadingIndicator />}
+            {isLoading && <TypingIndicator />}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Input Area */}
+          <div className="border-t border-white/30 bg-white/60 backdrop-blur-sm p-4 md:p-6 flex-shrink-0">
+            <div className="flex items-center space-x-4">
+              <div className="flex-1 relative">
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  onKeyDown={(e) => e.key === "Enter" && handleSendMessage(e)}
+                  placeholder="Share what's on your mind..."
+                  className="w-full px-6 py-4 bg-white/80 border border-purple-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 text-gray-800 placeholder-gray-500 shadow-sm hover:shadow-md"
+                  disabled={isLoading || analysisLoading}
+                />
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-400/20 to-blue-400/20 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+              </div>
+              <button
+                onClick={handleSendMessage}
+                type="button"
+                disabled={
+                  isLoading || analysisLoading || inputValue.trim() === ""
+                }
+                className="group relative p-4 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 disabled:from-gray-300 disabled:to-gray-400 text-white rounded-2xl shadow-lg hover:shadow-xl disabled:shadow-sm transition-all duration-300 transform hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2"
+              >
+                <PaperAirplaneIcon className="w-5 h-5 transform group-hover:translate-x-0.5 transition-transform duration-200" />
+                <div className="absolute inset-0 rounded-2xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </button>
+            </div>
+            {/* Support Information */}
+            <div className="mt-4 text-center">
+              <p className="text-xs text-gray-600 mb-2">
+                This is a supportive AI companion, not a replacement for
+                professional therapy.
+              </p>
+              <div className="flex items-center justify-center space-x-4 text-xs text-gray-500">
+                <span className="flex items-center space-x-1">
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                  <span>Safe Space</span>
+                </span>
+                <span className="flex items-center space-x-1">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                  <span>Non-Judgmental</span>
+                </span>
+                <span className="flex items-center space-x-1">
+                  <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                  <span>Confidential</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Quiz Suggestion Banner */}
+          {!quizAnswers && (
+            <div className="bg-gradient-to-r from-emerald-50 to-teal-50 border-t border-emerald-200 p-4 flex-shrink-0">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <MessageCircleIcon className="w-5 h-5 text-emerald-600" />
+                  <div>
+                    <p className="text-sm font-medium text-emerald-800">
+                      Get personalized support
+                    </p>
+                    <p className="text-xs text-emerald-600">
+                      Take our quick mental health assessment for tailored
+                      conversations
+                    </p>
+                  </div>
+                </div>
+                <button
+                  className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium rounded-xl transition-colors duration-200 flex items-center space-x-2"
+                  onClick={() => navigate("/quiz")}
+                >
+                  <span>Take Quiz</span>
+                  <ArrowUpRightIcon className="w-4 h-4" />
+                </button>
               </div>
             </div>
           )}
         </div>
-
-        <form
-          onSubmit={handleSendMessage}
-          className="p-6 border-t border-blue-100 bg-white/80 rounded-b-3xl flex items-center gap-3"
-        >
-          <input
-            type="text"
-            value={inputValue}
-            onChange={handleInputChange}
-            placeholder="Type your message..."
-            className="flex-grow px-5 py-3 bg-blue-50 border border-blue-200 text-blue-900 rounded-xl focus:ring-2 focus:ring-sky-400 focus:border-sky-400 outline-none transition-colors placeholder-blue-400 font-medium"
-            disabled={isLoading || analysisLoading}
-          />
-          <button
-            type="submit"
-            className="bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 text-white p-3 rounded-xl shadow font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-white"
-            disabled={isLoading || analysisLoading || inputValue.trim() === ""}
-          >
-            <PaperAirplaneIcon className="h-6 w-6" />
-          </button>
-        </form>
-        {/* Show quiz suggestion if quiz not taken */}
-        {!quizAnswers && (
-          <div className="p-5 border-t border-blue-100 bg-blue-50 rounded-b-3xl flex flex-col items-center">
-            <p className="text-blue-900 mb-3 text-center text-base">
-              <span className="font-semibold text-sky-600">
-                Want more personalized support?
-              </span>{" "}
-              Take our quick mental health quiz so the AI can better understand
-              your needs.
-            </p>
-            <button
-              className="px-6 py-2 bg-gradient-to-r from-sky-600 to-blue-600 text-white rounded-lg shadow hover:from-sky-700 hover:to-blue-700 transition text-base font-semibold"
-              onClick={() => navigate("/quiz")}
-            >
-              Take the Mental Health Quiz
-            </button>
-          </div>
-        )}
       </div>
       <style>{`
-        .custom-scrollbar::-webkit-scrollbar {
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-10px) rotate(180deg); }
+        }
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.5s ease-out forwards;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
           width: 8px;
         }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: #60a5fa; /* sky-400 */
+        ::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.1);
           border-radius: 10px;
         }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: #2563eb; /* blue-700 */
+        ::-webkit-scrollbar-thumb {
+          background: linear-gradient(to bottom, #8b5cf6, #3b82f6);
+          border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+          background: linear-gradient(to bottom, #7c3aed, #2563eb);
         }
       `}</style>
     </div>
