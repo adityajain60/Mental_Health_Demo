@@ -128,4 +128,50 @@ const getUserPosts = async (req, res) => {
   }
 };
 
-module.exports = { signup, login, logout, getUserById, getUserPosts };
+const updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, age, gender, bio } = req.body;
+
+    // Only allow updating specific fields
+    const updateFields = {};
+    if (name !== undefined) updateFields.name = name;
+    if (age !== undefined) updateFields.age = age;
+    if (gender !== undefined) updateFields.gender = gender;
+    if (bio !== undefined) updateFields.bio = bio;
+
+    // Optionally, update profilePicture if gender changes
+    if (gender) {
+      const user = await User.findById(id);
+      if (user && user.gender !== gender) {
+        const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${user.email}`;
+        const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${user.email}`;
+        updateFields.profilePicture =
+          gender.toLowerCase() === "male"
+            ? boyProfilePic
+            : gender.toLowerCase() === "female"
+            ? girlProfilePic
+            : user.profilePicture;
+      }
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { $set: updateFields },
+      { new: true, runValidators: true, select: "-password" }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.log("Error in updateUser controller", error.message);
+    res.status(500).json({ error: "Failed to update user" });
+  }
+};
+
+
+module.exports = { signup, login, logout, getUserById, getUserPosts, updateUser };
+

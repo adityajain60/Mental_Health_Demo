@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import EditProfileModal from "./EditProfileModal";
 import {
   Heart,
   MessageCircle,
@@ -28,6 +29,7 @@ const POSTS_API = `${API_BASE_URL}/posts`;
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("posts");
+  const [showEditModal, setShowEditModal] = useState(false);
   const [likedPosts, setLikedPosts] = useState(new Set());
   const [userData, setUserData] = useState(null);
   const [userPosts, setUserPosts] = useState([]);
@@ -245,7 +247,10 @@ const Profile = () => {
                 </label>
               </div>
             </div>
-            <button className="absolute top-4 right-4 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors flex items-center gap-2">
+            <button
+              className="absolute top-4 right-4 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors flex items-center gap-2"
+              onClick={() => setShowEditModal(true)}
+            >
               <Edit3 size={16} />
               Edit Profile
             </button>
@@ -323,7 +328,7 @@ const Profile = () => {
           <div className="flex space-x-1">
             {[
               { id: "posts", label: "Journal", icon: Grid },
-              { id: "about", label: "My Story", icon: Users },
+              { id: "about", label: "About Me", icon: Users },
             ].map((tab) => {
               const Icon = tab.icon;
               return (
@@ -374,10 +379,15 @@ const Profile = () => {
                             <h3 className="font-semibold text-gray-800">
                               {userData.name}
                             </h3>
-                            <span className="text-lg">😊</span>
+                            {/* Mood badge */}
+                            {post.options && (
+                              <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium">
+                                {post.options}
+                              </span>
+                            )}
                           </div>
                           <p className="text-sm text-gray-500">
-                            {formatTimestamp(post.createdAt || post.timestamp)}
+                            {formatTimestamp(post.createdAt)}
                           </p>
                         </div>
                       </div>
@@ -386,17 +396,27 @@ const Profile = () => {
                       </button>
                     </div>
 
+                    {/* Post Title */}
+                    {post.title && (
+                      <h2 className="text-xl font-bold text-gray-800 mb-2">{post.title}</h2>
+                    )}
+
+                    {/* Post Body */}
                     <p className="text-gray-700 mb-4 leading-relaxed">
-                      {post.content || post.text}
+                      {post.article}
                     </p>
 
-                    {post.image && (
-                      <div className="mb-4 rounded-xl overflow-hidden">
-                        <img
-                          src={post.image}
-                          alt="Post content"
-                          className="w-full h-64 object-cover"
-                        />
+                    {/* Tags */}
+                    {post.tags && post.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {post.tags.map((tag, idx) => (
+                          <span
+                            key={idx}
+                            className="px-2 py-1 bg-teal-50 text-teal-700 rounded-full text-xs font-medium border border-teal-100"
+                          >
+                            #{tag}
+                          </span>
+                        ))}
                       </div>
                     )}
 
@@ -412,9 +432,7 @@ const Profile = () => {
                         >
                           <Heart
                             size={18}
-                            className={
-                              likedPosts.has(post._id) ? "fill-current" : ""
-                            }
+                            className={likedPosts.has(post._id) ? "fill-current" : ""}
                           />
                           <span className="text-sm font-medium">
                             {post.likes || 0}
@@ -529,6 +547,16 @@ const Profile = () => {
               </div>
             </div>
           </div>
+        )}
+        {showEditModal && (
+          <EditProfileModal
+            userData={userData}
+            onClose={() => setShowEditModal(false)}
+            onSave={(updatedUser) => {
+              setUserData(updatedUser);
+              setShowEditModal(false);
+            }}
+          />
         )}
       </div>
     </div>
