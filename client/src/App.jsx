@@ -17,6 +17,7 @@ import MentalHealthQuiz from "./components/MentalHealthQuiz";
 import BreathingExercise from "./components/BreathingExercise";
 import Profile from "./components/Profile";
 import ViewAnonymousPost from "./components/ViewAnonymousPost";
+import UnauthorizedAccess from "./components/UnauthorizedAccess";
 
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem("token");
@@ -38,7 +39,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/unauthorizedAccess" element={<div>No Access</div>} />
+        <Route path="/unauthorizedAccess" element={<UnauthorizedAccess />} />
         <Route
           path="/anonymoussharing"
           element={
