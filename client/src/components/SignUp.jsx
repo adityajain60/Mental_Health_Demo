@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+// Removed PhotoIcon import as profile picture section is removed
+// Removed FaFacebookF, FaTwitter, FaGoogle imports as social icons are removed
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -9,10 +10,11 @@ export default function Signup() {
     name: "",
     email: "",
     gender: "",
+    bio: "", // Bio field is kept
     age: "",
   });
 
-
+  // const [profilePicture, setProfilePicture] = useState(null); // Removed profilePicture state
   const [error, setError] = useState("");
   const [missingDetailsError, setMissingDetailsError] = useState("");
   const navigate = useNavigate();
@@ -48,28 +50,19 @@ export default function Signup() {
       );
       return;
     }
+
     setMissingDetailsError(""); // Clear previous missing fields error
 
     try {
-      const formDataWithFile = new FormData();
-      for (const key in formData) {
-        formDataWithFile.append(key, formData[key]);
-      }
-      // if (profilePicture) { // Removed profilePicture append
-      //   formDataWithFile.append("profilePicture", profilePicture);
-      // }
-
-      const response = await fetch("http://localhost:8000/signup", {
+      const response = await fetch("http://localhost:8000/user/signup", {
         method: "POST",
-        body: formDataWithFile,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData), // Send data as JSON
       });
 
-      const data = await response.json(); // Try to parse JSON regardless of status
-
-      if (response.status === 409) {
-        setError(data.msg || "An error occurred."); // Use msg from backend if available
-        return;
-      }
+      const data = await response.json();
 
       if (!response.ok) {
         setError(
@@ -84,14 +77,13 @@ export default function Signup() {
       navigate("/login");
     } catch (error) {
       console.error("Error signing up:", error);
-      if (!error.message.includes("Network response was not ok")) {
-        setError("Error signing up. Please try again.");
-      }
+      setError("Error signing up. Please try again.");
     }
   };
 
   // handleCancel function is kept in case it's needed for other purposes,
   // but the "Cancel" button that used it has been removed.
+  // Bio field reset is kept. Profile picture reset is removed.
   const handleCancel = () => {
     setFormData({
       username: "",
@@ -99,7 +91,7 @@ export default function Signup() {
       name: "",
       email: "",
       gender: "",
-      // bio: "", // Removed bio
+      bio: "",
       age: "",
     });
     // setProfilePicture(null); // Removed profilePicture state reset
@@ -125,7 +117,7 @@ export default function Signup() {
           <div
             className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
             aria-hidden="true"
-            onClick={closeModal} // Close modal on backdrop click
+            onClick={closeModal}
           ></div>
           <div className="relative bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full mx-4">
             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -271,7 +263,7 @@ export default function Signup() {
                 autoComplete="sex"
                 value={formData.gender}
                 onChange={handleChange}
-                className={`${inputStyle} py-[9px]`} // Adjusted padding for select
+                className={`${inputStyle} py-[9px]`} 
               >
                 <option value="">Select Gender</option>
                 <option value="Male">Male</option>
@@ -282,7 +274,21 @@ export default function Signup() {
             </div>
           </div>
 
-          {/* 3) Remove About section - Entire Bio section removed */}
+          {/* Bio - This section is kept */}
+          <div>
+            <label htmlFor="bio" className={labelStyle}>
+              About (Optional)
+            </label>
+            <textarea
+              id="bio"
+              name="bio"
+              rows={3}
+              value={formData.bio}
+              onChange={handleChange}
+              className={inputStyle}
+              placeholder="Write a few sentences about yourself."
+            />
+          </div>
 
           {/* 2) Remove option for profile pic - Entire Profile Picture section removed */}
 
