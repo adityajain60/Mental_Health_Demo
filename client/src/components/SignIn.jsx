@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ArrowRight, User, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
+import { backendURL } from "./../backendURL";
 export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,7 +10,7 @@ export default function SignInPage() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:8000/user/login", {
+      const response = await fetch(`${backendURL}/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

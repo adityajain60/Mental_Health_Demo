@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { backendURL } from "./../backendURL";
+
 
 const EditProfileModal = ({ userData, onClose, onSave }) => {
   const [form, setForm] = useState({
@@ -18,7 +20,7 @@ const EditProfileModal = ({ userData, onClose, onSave }) => {
     setSaving(true);
     try {
       const res = await fetch(
-        `http://localhost:8000/user/${userData._id}`,
+        `${backendURL}/user/${userData._id}`,
         {
           method: "PUT",
           headers: {

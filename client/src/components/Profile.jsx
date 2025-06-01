@@ -21,10 +21,10 @@ import {
   Smile,
   User,
 } from "lucide-react";
-
+import { backendURL } from './../backendURL';
 // Adjust these API endpoints to match your backend routes
-const API_BASE_URL = "http://localhost:8000";
-const USER_API = `${API_BASE_URL}/user`; 
+const API_BASE_URL = backendURL;
+const USER_API = `${API_BASE_URL}/user`;
 const POSTS_API = `${API_BASE_URL}/posts`;
 
 const Profile = () => {

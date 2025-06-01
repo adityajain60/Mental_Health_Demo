@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 // Removed PhotoIcon import as profile picture section is removed
 // Removed FaFacebookF, FaTwitter, FaGoogle imports as social icons are removed
-
+import { backendURL } from "./../backendURL";
 export default function Signup() {
   const [formData, setFormData] = useState({
     username: "",
@@ -54,7 +54,7 @@ export default function Signup() {
     setMissingDetailsError(""); // Clear previous missing fields error
 
     try {
-      const response = await fetch("http://localhost:8000/user/signup", {
+      const response = await fetch(`${backendURL}/user/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
