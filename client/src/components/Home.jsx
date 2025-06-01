@@ -14,7 +14,6 @@ import {
   MessageCircle,
   Activity,
 } from "lucide-react";
-
 const Home = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -55,7 +54,6 @@ const Home = () => {
   };
 
   const navLinks = [
-    { name: "Home", path: "/home" },
     { name: "Anonymous Sharing", path: "/anonymoussharing" },
     { name: "Quiz", path: "/quiz" },
     { name: "Breathing Exercise", path: "/breathingexercise" },
@@ -65,27 +63,27 @@ const Home = () => {
   const services = [
     {
       icon: <Heart className="w-8 h-8" />,
-      title: "Individual Therapy",
+      title: "Understanding Mental Health",
       description:
-        "Personalized one-on-one sessions to address your unique mental health needs and goals.",
+        "Mental health is just as important as physical health. It affects how we think, feel, and act, influencing how we handle stress, relate to others, and make choices. Prioritizing mental well-being can lead to a more balanced, fulfilling life.",
       color: "from-rose-500 to-pink-500",
     },
     {
       icon: <Users className="w-8 h-8" />,
-      title: "Group Therapy",
+      title: "You're Not Alone",
       description:
-        "Connect with others facing similar challenges in a supportive group environment.",
+        "Millions of people struggle with mental health issues every day. Whether it's anxiety, depression, burnout, or trauma, it's okay to seek help. Community, connection, and support can make a world of difference on the path to healing.",
       color: "from-blue-500 to-cyan-500",
     },
     {
       icon: <Shield className="w-8 h-8" />,
-      title: "Crisis Support",
+      title: "A Safe Space to Heal",
       description:
-        "24/7 emergency mental health support when you need it most.",
+        "Everyone deserves a place where they feel heard, understood, and supported. This platform is designed to be that space — free of judgment, rooted in compassion, and focused on helping you feel better, one step at a time.",
       color: "from-purple-500 to-indigo-500",
     },
   ];
-
+  
   const features = [
     {
       icon: <MessageCircle className="w-12 h-12" />,
@@ -112,27 +110,28 @@ const Home = () => {
 
   const testimonials = [
     {
-      name: "Sarah Johnson",
-      role: "Client",
+      name: "Princess Diana",
+      role: "Mental Health Advocate",
       content:
-        "The support I received here changed my life. The therapists are compassionate and truly understand mental health challenges.",
+        "Everyone of us needs to show how much we care for each other and, in the process, care for ourselves.",
       rating: 5,
     },
     {
-      name: "Michael Chen",
-      role: "Client",
+      name: "Robin Williams",
+      role: "Actor & Comedian",
       content:
-        "Professional, caring, and effective. I finally found the help I needed to overcome my anxiety and depression.",
+        "I think the saddest people always try their hardest to make people happy. Because they know what it feels like to feel absolutely worthless.",
       rating: 5,
     },
     {
-      name: "Emily Rodriguez",
-      role: "Client",
+      name: "Michelle Obama",
+      role: "Former First Lady",
       content:
-        "The group therapy sessions provided me with a sense of community I never knew I needed. Highly recommended.",
+        "At the root of this dilemma is the way we view mental health in this country. Whether an illness affects your heart, your leg or your brain, it’s still an illness, and there should be no distinction.",
       rating: 5,
     },
   ];
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
@@ -264,7 +263,7 @@ const Home = () => {
               <div className="space-y-6">
                 <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium">
                   <Heart className="w-4 h-4 mr-2" />
-                  Professional Mental Health Care
+                   Mental Health Care
                 </div>
                 <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight">
                   Welcome to
@@ -273,9 +272,7 @@ const Home = () => {
                   </span>
                 </h1>
                 <p className="text-xl text-gray-600 leading-relaxed">
-                  Your trusted partner in mental health and wellness.
-                  Professional, compassionate support tailored to your unique
-                  needs.
+                We hear you. This platform is built for you — a safe space for your mental health and wellness journey, offering compassionate support tailored to your needs
                 </p>
               </div>
 
@@ -287,23 +284,21 @@ const Home = () => {
                   Get Started
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </button>
-                <button className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-full font-semibold hover:border-blue-600 hover:text-blue-600 transition-all duration-300">
-                  Learn More
-                </button>
+                
               </div>
 
               <div className="flex items-center space-x-8 pt-8">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-gray-900">500+</div>
-                  <div className="text-gray-600">Clients Helped</div>
+              <div className="text-center">
+                  <div className="text-xl font-bold text-gray-1000">1 in 5</div>
+                  <div className="text-gray-600">Adults Experience Mental Illness</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-gray-900">10+</div>
-                  <div className="text-gray-600">Years Experience</div>
+                  <div className="text-xl font-bold text-gray-1000">50%</div>
+                  <div className="text-gray-600">Mental Illness Begins by Age 14</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-gray-900">24/7</div>
-                  <div className="text-gray-600">Support Available</div>
+                  <div className="text-xl font-bold text-gray-1000">75%</div>
+                  <div className="text-gray-600">Mental Illness Begins by Age 24</div>
                 </div>
               </div>
             </div>
@@ -334,7 +329,7 @@ const Home = () => {
                     <div className="flex items-center space-x-3">
                       <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                       <span className="text-gray-700">
-                        Professional Support
+                        Therapy Chat
                       </span>
                     </div>
                     <div className="flex items-center space-x-3">
@@ -387,29 +382,36 @@ const Home = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-8 border border-gray-100 transition-all duration-300 hover:-translate-y-2 cursor-pointer"
-              >
-                <div
-                  className={`w-16 h-16 bg-gradient-to-r ${feature.color} rounded-2xl flex items-center justify-center mb-6 text-white group-hover:scale-110 transition-transform duration-300`}
-                >
-                  {feature.icon}
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed mb-6">
-                  {feature.description}
-                </p>
-                <div className="flex items-center text-blue-600 font-semibold group-hover:text-purple-600 transition-colors duration-300">
-                  Explore Feature
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
-                </div>
-              </div>
-            ))}
-          </div>
+  {features.map((feature, index) => (
+    <a
+      key={index}
+      href={
+        index === 0
+          ? "/anonymoussharing"
+          : index === 1
+          ? "/quiz"
+          : "/breathingexercise"
+      }
+      className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-8 border border-gray-100 transition-all duration-300 hover:-translate-y-2 cursor-pointer"
+    >
+      <div
+        className={`w-16 h-16 bg-gradient-to-r ${feature.color} rounded-2xl flex items-center justify-center mb-6 text-white group-hover:scale-110 transition-transform duration-300`}
+      >
+        {feature.icon}
+      </div>
+      <h3 className="text-2xl font-bold text-gray-900 mb-4">
+        {feature.title}
+      </h3>
+      <p className="text-gray-600 leading-relaxed mb-6">
+        {feature.description}
+      </p>
+      <div className="flex items-center text-blue-600 font-semibold group-hover:text-purple-600 transition-colors duration-300">
+        Explore Feature
+        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+      </div>
+    </a>
+  ))}
+</div>
         </div>
       </section>
 
@@ -418,14 +420,14 @@ const Home = () => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Professional{" "}
+              Mental{" "}
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Services
+                Health
               </span>
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Expert mental health services to support your journey towards
-              wellness and personal growth.
+              Understanding mental health is crucial for overall well-being.
+              Here are some key aspects to consider:
             </p>
           </div>
 
@@ -447,10 +449,7 @@ const Home = () => {
                 <p className="text-gray-600 leading-relaxed mb-6">
                   {service.description}
                 </p>
-                <div className="flex items-center text-blue-600 font-semibold group-hover:text-purple-600 transition-colors duration-300">
-                  Learn More
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
-                </div>
+                
               </div>
             ))}
           </div>
@@ -459,54 +458,35 @@ const Home = () => {
 
       {/* Testimonials Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-50 to-purple-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              What Our{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Clients Say
-              </span>
-            </h2>
-            <p className="text-xl text-gray-600">
-              Real stories from people who found their path to wellness
-            </p>
-          </div>
+  <div className="max-w-7xl mx-auto">
+    <div className="text-center mb-16">
+      <h2 className="text-4xl font-bold text-gray-900 mb-4">
+        Words that <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Inspire</span>
+      </h2>
+      <p className="text-xl text-gray-600">
+        Powerful quotes from influential voices on mental health
+      </p>
+    </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 hover:shadow-2xl transition-all duration-300"
-              >
-                <div className="flex items-center mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-5 h-5 text-yellow-400 fill-current"
-                    />
-                  ))}
-                </div>
-                <p className="text-gray-700 leading-relaxed mb-6 italic">
-                  "{testimonial.content}"
-                </p>
-                <div className="flex items-center">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold mr-4">
-                    {testimonial.name.charAt(0)}
-                  </div>
-                  <div>
-                    <div className="font-semibold text-gray-900">
-                      {testimonial.name}
-                    </div>
-                    <div className="text-gray-600 text-sm">
-                      {testimonial.role}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+    <div className="grid md:grid-cols-3 gap-8">
+      {testimonials.map((testimonial, index) => (
+        <div
+          key={index}
+          className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 hover:shadow-2xl transition-all duration-300"
+        >
+          <p className="text-gray-700 leading-relaxed mb-6 italic text-lg">
+            “{testimonial.content}”
+          </p>
+          <div className="mt-4 text-right">
+            <div className="font-semibold text-gray-900">{testimonial.name}</div>
+            <div className="text-gray-600 text-sm italic">{testimonial.role}</div>
           </div>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
+
 
       {/* CTA Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
@@ -516,8 +496,7 @@ const Home = () => {
               Ready to Start Your Wellness Journey?
             </h2>
             <p className="text-xl opacity-90 mb-8">
-              Join thousands who have found support, healing, and growth with
-              MindCare.
+              Join our community today and take the first step towards better mental health.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
@@ -526,9 +505,6 @@ const Home = () => {
               >
                 Get Started Today
               </button>
-              <button className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all duration-300">
-                Learn More
-              </button>
             </div>
           </div>
         </div>
@@ -536,75 +512,63 @@ const Home = () => {
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="space-y-4">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-                  <Heart className="w-6 h-6 text-white" />
-                </div>
-                <span className="text-2xl font-bold">MindCare</span>
-              </div>
-              <p className="text-gray-400 leading-relaxed">
-                Professional mental health care with compassion and expertise.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-              <ul className="space-y-2 text-gray-400">
-                {navLinks.map(({ name, path }) => (
-                  <li key={name}>
-                    <a
-                      href={path}
-                      className="hover:text-white transition-colors duration-200"
-                    >
-                      {name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Contact</h3>
-              <div className="space-y-2 text-gray-400">
-                <div className="flex items-center">
-                  <Phone className="w-4 h-4 mr-2" />
-                  (555) 123-4567
-                </div>
-                <div className="flex items-center">
-                  <Mail className="w-4 h-4 mr-2" />
-                  info@mindcare.com
-                </div>
-                <div className="flex items-center">
-                  <MapPin className="w-4 h-4 mr-2" />
-                  123 Wellness St, City
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Support Hours</h3>
-              <div className="space-y-2 text-gray-400">
-                <div>Mon-Fri: 9AM-6PM</div>
-                <div>Saturday: 10AM-4PM</div>
-                <div>Sunday: Closed</div>
-                <div className="text-blue-400 font-semibold">
-                  24/7 Crisis Support
-                </div>
-              </div>
-            </div>
+  <div className="max-w-7xl mx-auto">
+    <div className="grid md:grid-cols-4 gap-8">
+      <div className="space-y-4">
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
+            <Heart className="w-6 h-6 text-white" />
           </div>
+          <span className="text-2xl font-bold">MindCare</span>
+        </div>
+        <p className="text-gray-400 leading-relaxed">
+          MindCare is dedicated to providing a safe and supportive space for mental health and wellness.
+        </p>
+      </div>
 
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>
-              &copy; 2025 MindCare. All rights reserved. Your privacy and
-              confidentiality are our priority.
-            </p>
+      <div>
+        <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+        <ul className="space-y-2 text-gray-400">
+          {navLinks.map(({ name, path }) => (
+            <li key={name}>
+              <a
+                href={path}
+                className="hover:text-white transition-colors duration-200"
+              >
+                {name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h3 className="text-lg font-semibold mb-4">Made By</h3>
+        <div className="space-y-2 text-gray-400">
+          <div className="flex items-center">
+            <span className="w-4 h-4 mr-2">👨‍💻</span>
+            Sreyash Mohanty
+          </div>
+          <div className="flex items-center">
+            <span className="w-4 h-4 mr-2">👨‍💻</span>
+            Aditya Jain
+          </div>
+          <div className="flex items-center">
+            <span className="w-4 h-4 mr-2">👨‍💻</span>
+            Deepanshu Parashar
           </div>
         </div>
-      </footer>
+      </div>
+    </div>
+
+    <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+      <p>
+        &copy; 2025 MindCare. All rights reserved. Your privacy and
+        confidentiality are our priority.
+      </p>
+    </div>
+  </div>
+</footer>
     </div>
   );
 };
