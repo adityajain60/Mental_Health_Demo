@@ -1,1 +1,1 @@
-export const backendURL = "https://mental-health-demo-uixy.vercel.app/";
+export const backendURL = "https://mental-health-demo-uixy.vercel.app";
