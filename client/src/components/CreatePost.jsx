@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { backendURL } from './../backendURL';
 
 const CreatePost = () => {
   const [formData, setFormData] = useState({
@@ -30,7 +31,7 @@ const CreatePost = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:8000/posts/createPost",
+        `${backendURL}/posts/createPost`,
         newPost,
         {
           headers: {

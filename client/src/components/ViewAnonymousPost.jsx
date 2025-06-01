@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-
-const API_BASE_URL = "http://localhost:8000/posts";
+import { backendURL } from "./../backendURL";
+const API_BASE_URL = `${backendURL}/posts`;
 
 const optionsColors = {
   happy: "bg-yellow-100 text-yellow-800",
