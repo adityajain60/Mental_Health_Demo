@@ -60,6 +60,7 @@ const Home = () => {
     { name: "Quiz", path: "/quiz" },
     { name: "Breathing Exercise", path: "/breathingexercise" },
     { name: "Therapy Chat", path: "/chat" },
+    { name: "Mental Health Predictor", path: "/mentalhealthpredictor" },
     ...(isLoggedIn ? [{ name: "Profile", path: "/profile" }] : []),
   ];
 
