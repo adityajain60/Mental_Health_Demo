@@ -18,6 +18,8 @@ import BreathingExercise from "./components/BreathingExercise";
 import Profile from "./components/Profile";
 import ViewAnonymousPost from "./components/ViewAnonymousPost";
 import UnauthorizedAccess from "./components/UnauthorizedAccess";
+import MentalHealthForm from "./components/MentalHealthPredictor";
+
 
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem("token");
@@ -105,7 +107,16 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/mentalhealthpredictor"
+          element={
+            <PrivateRoute>
+              <MentalHealthForm />
+            </PrivateRoute>
+          }
+        />
       </Routes>
+      
     </BrowserRouter>
   );
 }
