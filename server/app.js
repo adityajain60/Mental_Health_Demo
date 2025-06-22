@@ -17,9 +17,13 @@ app.use(
 
 const postRouter = require("./routers/postRoutes.js");
 const userRouter = require("./routers/userRoutes.js");
+const mentalRouter = require("./routers/mentalRoutes.js");
+
+
 
 app.use("/posts", postRouter);
 app.use("/user", userRouter);
+app.use("/model", mentalRouter);
 
 
 // const bcrypt = require("bcryptjs");
